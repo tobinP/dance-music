@@ -13,13 +13,10 @@ public class SocketTest : MonoBehaviour
 {
     WebSocket websocket;
     string jsonString;
+
     async void Start()
     {
-        var testObj = new TestObj
-        {
-            name = "test name",
-            xVal = 5
-        };
+        var testObj = new TestObj { name = "test name", xVal = 5 };
         jsonString = JsonUtility.ToJson(testObj);
         Debug.Log(jsonString);
 
@@ -46,20 +43,21 @@ public class SocketTest : MonoBehaviour
 
     void Update()
     {
-        #if !UNITY_WEBGL || UNITY_EDITOR
-            websocket.DispatchMessageQueue();
-        #endif
+#if !UNITY_WEBGL || UNITY_EDITOR
+        websocket.DispatchMessageQueue();
+#endif
     }
 
-  async void SendWebSocketMessage()
-  {
-    if (websocket.State == WebSocketState.Open)
+    async void SendWebSocketMessage()
     {
-        await websocket.SendText(jsonString);
+        if (websocket.State == WebSocketState.Open)
+        {
+            await websocket.SendText(jsonString);
+        }
     }
-  }
+
     private async void OnApplicationQuit()
-  {
-    await websocket.Close();
-  }
+    {
+        await websocket.Close();
+    }
 }
