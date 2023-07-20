@@ -6,7 +6,7 @@ using NativeWebSocket;
 public class TestObj
 {
     public string name;
-    public int xVal;
+    public float xVal;
 }
 
 public class SocketTest : MonoBehaviour

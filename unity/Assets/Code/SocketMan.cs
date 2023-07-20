@@ -52,6 +52,17 @@ public class SocketMan
         }
     }
 
+    public void Send(float yVal)
+    {
+        if (websocket.State == WebSocketState.Open)
+        {
+            var testObj = new TestObj { name = "SocketMan", xVal = yVal };
+            jsonString = JsonUtility.ToJson(testObj);
+            Debug.Log("&&& sending");
+            websocket.SendText(jsonString);
+        }
+    }
+
     private async void OnApplicationQuit()
     {
         await websocket.Close();

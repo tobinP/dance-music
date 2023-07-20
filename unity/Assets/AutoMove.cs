@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class AutoMove : MonoBehaviour
 {
-    Transform transform;
+    [Range(0.0f, 5.0f)]
+    public float speed;
+    private Transform transform;
+    private int direction = 1;
+    private int offset = 1;
+
     void Start()
     {
         transform = gameObject.GetComponent<Transform>();
@@ -12,7 +17,8 @@ public class AutoMove : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("&&& transform: " + transform.position.y);
-        
+        Vector3 pos = transform.position;
+        float newY = Mathf.Sin(Time.time * speed) + offset;
+        transform.position = new Vector3(pos.x, newY, pos.z);
     }
 }
