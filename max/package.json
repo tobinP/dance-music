@@ -1,0 +1,15 @@
+{
+  "name": "echo",
+  "version": "1.0.0",
+  "description": "A pass-through script. Any message input to the script will be output to the node.script outlet, and then printed to the Max console.",
+  "main": "n4m.echo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.13.0"
+  }
+}
