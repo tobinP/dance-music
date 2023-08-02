@@ -22,7 +22,7 @@ public class SocketMan
         var testObj = new TestObj { name = "SocketMan", xVal = 5 };
         jsonString = JsonUtility.ToJson(testObj);
         Debug.Log("&&& SocketMan");
-        websocket = new WebSocket("ws://192.168.0.52:8080");
+        websocket = new WebSocket("ws://192.168.0.52:9090");
 
         websocket.OnOpen += () =>
         {
@@ -58,7 +58,7 @@ public class SocketMan
         {
             var testObj = new TestObj { name = "SocketMan", xVal = yVal };
             jsonString = JsonUtility.ToJson(testObj);
-            Debug.Log("&&& sending");
+            // Debug.Log("&&& sending:", yVal);
             websocket.SendText(jsonString);
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LeftListener : MonoBehaviour
 {
+    public bool isSending = false;
     private Transform transform;
     private float oldY;
     private SocketMan socketMan;
@@ -15,9 +16,12 @@ public class LeftListener : MonoBehaviour
 
     void Update()
     {
+        if (!isSending) return;
+
         if (oldY != transform.position.y)
         {
             oldY = transform.position.y;
+            Debug.Log($"&&& sending: {oldY}");
             socketMan.Send(oldY);
         }
         

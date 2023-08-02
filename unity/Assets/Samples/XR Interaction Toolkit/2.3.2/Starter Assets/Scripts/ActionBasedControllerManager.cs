@@ -179,6 +179,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
 
         void OnRaySelectEntered(SelectEnterEventArgs args)
         {
+            // try sending noteOn right here
+
             // Disable locomotion and turn actions
             DisableLocomotionActions();
         }
