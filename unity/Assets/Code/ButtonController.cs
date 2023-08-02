@@ -54,6 +54,8 @@
             public bool isReleased = true;
             public GameObject testObject;
             Vector3 scaleUp = new Vector3(50,50,50);
+            TestObj obj = new TestObj { name = "triggerDown", xVal = -1 };
+            private SocketMan socketMan;
      
             // to obtain input devices
             List<InputDevice> inputDevices;
@@ -72,6 +74,11 @@
                 // init list
                 inputDevices = new List<InputDevice>();
             }
+
+            void Start()
+            {
+                socketMan = SingleMan.Instance.SocketMan;
+            }
      
             void Update()
             {
@@ -79,9 +86,17 @@
                 {
                     needsUpdate = false;
                     if (isReleased)
+                    {
                         testObject.transform.localScale -= scaleUp;
+                        obj.name = "triggerUp";
+                        socketMan.Send(obj);
+                    }
                     else
+                    {
                         testObject.transform.localScale += scaleUp;
+                        obj.name = "triggerDown";
+                        socketMan.Send(obj);
+                    }
                 }
 
                 InputDevices.GetDevicesWithRole(deviceRole, inputDevices);
@@ -97,6 +112,8 @@
                             IsPressed = true;
                             OnPress.Invoke();
                             testObject.transform.localScale += scaleUp;
+                            obj.name = "triggerDown";
+                            socketMan.Send(obj);
                         }
                     }
      
@@ -106,6 +123,8 @@
                         IsPressed = false;
                         OnRelease.Invoke();
                         testObject.transform.localScale -= scaleUp;
+                        obj.name = "triggerUp";
+                        socketMan.Send(obj);
                     }
                 }
             }

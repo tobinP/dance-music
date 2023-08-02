@@ -58,7 +58,15 @@ public class SocketMan
         {
             var testObj = new TestObj { name = "SocketMan", xVal = yVal };
             jsonString = JsonUtility.ToJson(testObj);
-            // Debug.Log("&&& sending:", yVal);
+            websocket.SendText(jsonString);
+        }
+    }
+
+    public void Send(TestObj obj)
+    {
+        if (websocket.State == WebSocketState.Open)
+        {
+            jsonString = JsonUtility.ToJson(obj);
             websocket.SendText(jsonString);
         }
     }

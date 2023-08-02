@@ -26,10 +26,16 @@ const WebSocket = require("ws")
 const wss = new WebSocket.Server({ port: 9090 });
 wss.on('connection', function connection(ws) {
 	ws.on('message', function message(data) {
-		// maxAPI.outlet("message received by server")
+		maxAPI.outlet("message received by server")
 		let decoded = JSON.parse(data)
-		let val = map(decoded.xVal)
-		maxAPI.outlet([decoded.name, val])
+		maxAPI.outlet(`decoded name: ${decoded.name}`)
+		if (decoded.name === "triggerUp") {
+			maxAPI.outlet("message triggerUp")
+			maxAPI.outlet([noteOff])
+		} else if (decoded.name === "triggerDown") {
+			maxAPI.outlet("message triggerDown")
+			maxAPI.outlet([noteOn])
+		}
 	});
 	let obj = {
 		name: -1,
