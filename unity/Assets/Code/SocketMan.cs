@@ -47,7 +47,7 @@ public class SocketMan
     {
         if (websocket.State == WebSocketState.Open)
         {
-            Debug.Log("&&& sending");
+            // Debug.Log("&&& sending");
             websocket.SendText(jsonString);
         }
     }

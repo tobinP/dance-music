@@ -5,8 +5,8 @@ using UnityEngine;
 public class LeftListener : MonoBehaviour
 {
     public bool isSending = false;
+    public float oldY;
     private Transform transform;
-    private float oldY;
     private SocketMan socketMan;
     void Start()
     {
@@ -21,7 +21,7 @@ public class LeftListener : MonoBehaviour
         if (oldY != transform.position.y)
         {
             oldY = transform.position.y;
-            Debug.Log($"&&& sending: {oldY}");
+            // Debug.Log($"&&& sending: {oldY}");
             socketMan.Send(oldY);
         }
         
