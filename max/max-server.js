@@ -6,7 +6,7 @@ let isRunning = false
 let noteOn = "noteOn"
 let noteOff = "noteOff"
 let primaryUp = "primaryUp"
-let primaryDown = "primaryDown"
+let primaryDown = "RightHanded-primaryDown"
 let secondaryUp = "secondaryUp"
 let secondaryDown = "secondaryDown"
 let knobEvent = "knob"
@@ -65,18 +65,12 @@ let diff2 = max2 - min2
 let ratio = diff2 / diff1
 
 function mapPitch(val) {
-	// if (val < 1) val = 1
-	// if (val > 2) val = 2
-	// return val * ratio
-
 	val = val * ratio
 	if (val > 126) val = 126
 	if (val < 1) val = 1
 	return val
 }
 
-// clearInterval(repeater)
-// autoRun(noEventName, 5, 40, 2)
 function autoRun(event, min, max, incrementValue) {
 	let value = 0
 	let shouldIncrease = true

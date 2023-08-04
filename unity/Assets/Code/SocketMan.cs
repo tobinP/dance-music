@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using NativeWebSocket;
 
+public class Data
+{
+    public string name;
+    public float xVal;
+}
+
 public class SocketMan
 {
     public static SocketMan Instance
@@ -19,8 +25,8 @@ public class SocketMan
 
     private SocketMan()
     {
-        var testObj = new TestObj { name = "SocketMan", xVal = 5 };
-        jsonString = JsonUtility.ToJson(testObj);
+        var data = new Data { name = "SocketMan", xVal = 5 };
+        jsonString = JsonUtility.ToJson(data);
         Debug.Log("&&& SocketMan");
         websocket = new WebSocket("ws://192.168.0.52:9090");
 
@@ -47,7 +53,6 @@ public class SocketMan
     {
         if (websocket.State == WebSocketState.Open)
         {
-            // Debug.Log("&&& sending");
             websocket.SendText(jsonString);
         }
     }
@@ -56,13 +61,13 @@ public class SocketMan
     {
         if (websocket.State == WebSocketState.Open)
         {
-            var testObj = new TestObj { name = "SocketMan", xVal = yVal };
-            jsonString = JsonUtility.ToJson(testObj);
+            var data = new Data { name = "SocketMan", xVal = yVal };
+            jsonString = JsonUtility.ToJson(data);
             websocket.SendText(jsonString);
         }
     }
 
-    public void Send(TestObj obj)
+    public void Send(Data obj)
     {
         if (websocket.State == WebSocketState.Open)
         {

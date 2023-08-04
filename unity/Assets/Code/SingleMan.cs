@@ -26,13 +26,6 @@ public class SingleMan : MonoBehaviour
         if (sendMessage)
         {
             sendMessage = false;
-            TestSocket();
         }
-    }
-
-    public void TestSocket()
-    {
-        Debug.Log("&&& TestSocket");
-        SocketMan.Send();
     }
 }
