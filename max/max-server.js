@@ -1,33 +1,19 @@
 const maxAPI = require("max-api");
 const WebSocket = require("ws")
+const MapperMan = require("./mapper-man")
+const C = require("./constants")
 
 let repeater
 let isRunning = false
-
-let primaryUpLeft = "LeftHanded-primaryUp"
-let primaryDownLeft = "LeftHanded-primaryDown"
-let secondaryUpLeft = "LeftHanded-secondaryUp"
-let secondaryDownLeft = "LeftHanded-secondaryDown"
-
-let primaryUpRight = "RightHanded-primaryUp"
-let primaryDownRight = "RightHanded-primaryDown"
-let secondaryUpRight = "RightHanded-secondaryUp"
-let secondaryDownRight = "RightHanded-secondaryDown"
-
-let noteOn = "noteOn"
-let noteOff = "noteOff"
-let knobEvent = "knob"
-let pitchEvent = "pitch"
-let noEventName = "noName"
 
 maxAPI.addHandler("server", (...args) => {
 	maxAPI.outlet(args[0])
 	if (args[0] === "autorun") {
 		if (isRunning) {
 			clearInterval(repeater)
-			maxAPI.outlet([pitchEvent, 0])
+			maxAPI.outlet([knobEvent, 0])
 		} else {
-			autoRun(pitchEvent, 5, 100, 2)
+			autoRun(knobEvent, 0, 2, 0.2)
 		}
 		isRunning = !isRunning
 	}
@@ -39,17 +25,17 @@ wss.on('connection', function connection(ws) {
 		let decoded = JSON.parse(data)
 		maxAPI.outlet(`name: ${decoded.name}, val: ${decoded.xVal}`)
 		switch (decoded.name) {
-			case primaryUpRight:
+			case C.primaryUpRight:
 				maxAPI.outlet([noteOff])
 				break
-			case primaryDownRight:
+			case C.primaryDownRight:
 				maxAPI.outlet([noteOn])
 				break
-			case secondaryUpRight:
+			case C.secondaryUpRight:
 				maxAPI.outlet([pitchEvent, 0])
 				break
-			case secondaryDownRight:
-				let val = mapPitch(decoded.xVal)
+			case C.secondaryDownRight:
+				let val = MapperMan.eightBit(decoded.xVal)
 				maxAPI.outlet(`in secondaryDown, val: ${val}`)
 				maxAPI.outlet([pitchEvent, val])
 				break
@@ -61,22 +47,6 @@ wss.on('connection', function connection(ws) {
 		} 
 	});
 });
-
-let min1 = 0
-let max1 = 2
-let min2 = 0
-let max2 = 126
-
-let diff1 = max1 - min1
-let diff2 = max2 - min2
-let ratio = diff2 / diff1
-
-function mapPitch(val) {
-	val = val * ratio
-	if (val > 126) val = 126
-	if (val < 1) val = 1
-	return val
-}
 
 function autoRun(event, min, max, incrementValue) {
 	let value = 0
@@ -94,6 +64,10 @@ function autoRun(event, min, max, incrementValue) {
 				shouldIncrease = true
 			}
 		}
-		maxAPI.outlet([event, value])
+		// maxAPI.outlet(`before value: ${value}`)
+		// mappedVal = MapperMan.eightBit(value)
+		mappedVal = MapperMan.zeroToOne(value)
+		// maxAPI.outlet(`after value: ${mappedVal}`)
+		maxAPI.outlet([event, mappedVal])
 	}, 75)
 }
