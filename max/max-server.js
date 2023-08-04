@@ -3,12 +3,19 @@ const WebSocket = require("ws")
 
 let repeater
 let isRunning = false
+
+let primaryUpLeft = "LeftHanded-primaryUp"
+let primaryDownLeft = "LeftHanded-primaryDown"
+let secondaryUpLeft = "LeftHanded-secondaryUp"
+let secondaryDownLeft = "LeftHanded-secondaryDown"
+
+let primaryUpRight = "RightHanded-primaryUp"
+let primaryDownRight = "RightHanded-primaryDown"
+let secondaryUpRight = "RightHanded-secondaryUp"
+let secondaryDownRight = "RightHanded-secondaryDown"
+
 let noteOn = "noteOn"
 let noteOff = "noteOff"
-let primaryUp = "primaryUp"
-let primaryDown = "RightHanded-primaryDown"
-let secondaryUp = "secondaryUp"
-let secondaryDown = "secondaryDown"
 let knobEvent = "knob"
 let pitchEvent = "pitch"
 let noEventName = "noName"
@@ -32,16 +39,16 @@ wss.on('connection', function connection(ws) {
 		let decoded = JSON.parse(data)
 		maxAPI.outlet(`name: ${decoded.name}, val: ${decoded.xVal}`)
 		switch (decoded.name) {
-			case primaryUp:
+			case primaryUpRight:
 				maxAPI.outlet([noteOff])
 				break
-			case primaryDown:
+			case primaryDownRight:
 				maxAPI.outlet([noteOn])
 				break
-			case secondaryUp:
+			case secondaryUpRight:
 				maxAPI.outlet([pitchEvent, 0])
 				break
-			case secondaryDown:
+			case secondaryDownRight:
 				let val = mapPitch(decoded.xVal)
 				maxAPI.outlet(`in secondaryDown, val: ${val}`)
 				maxAPI.outlet([pitchEvent, val])
