@@ -65,7 +65,7 @@ public class ButtonController : MonoBehaviour
                 {
                     IsPrimaryPressed = true;
                     sphere.transform.localScale += scaleUp;
-                    var data = new Data { name = $"{device.role}-primaryDown", xVal = 0 };
+                    var data = new Data { name = $"{deviceRole}-primaryDown", xVal = 0 };
                     textMeshPro.text = data.name;
                     socketMan.Send(data);
                 }
@@ -74,7 +74,7 @@ public class ButtonController : MonoBehaviour
             {
                 IsPrimaryPressed = false;
                 sphere.transform.localScale -= scaleUp;
-                var data = new Data { name = "primaryUp", xVal = 0 };
+                var data = new Data { name = $"{deviceRole}-primaryUp", xVal = 0 };
                 socketMan.Send(data);
             }
 
@@ -85,7 +85,7 @@ public class ButtonController : MonoBehaviour
                     IsSecondaryPressed = true;
                     secondaryOn = true;
                     sphere.transform.localScale += scaleUp;
-                    var data = new Data { name = "secondaryDown", xVal = 0 };
+                    var data = new Data { name = $"{deviceRole}-secondaryDown", xVal = 0 };
                     socketMan.Send(data);
                 }
             }
@@ -94,14 +94,14 @@ public class ButtonController : MonoBehaviour
                 IsSecondaryPressed = false;
                 secondaryOn = false;
                 sphere.transform.localScale -= scaleUp;
-                var data = new Data { name = "secondaryUp", xVal = 0 };
+                var data = new Data { name = $"{deviceRole}-secondaryUp", xVal = 0 };
                 socketMan.Send(data);
             }
         }
 
         if (secondaryOn)
         {
-            var data = new Data { name = "secondaryDown", xVal = transform.position.y };
+            var data = new Data { name = $"{deviceRole}-secondaryDown", xVal = transform.position.y };
             socketMan.Send(data);
         }
     }
